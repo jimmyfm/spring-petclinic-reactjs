@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import React, { FC, useEffect, useState } from "react";
 
 export const Error: FC<{}> = () => {
@@ -8,6 +9,15 @@ export const Error: FC<{}> = () => {
             .then(r => r.json())
             .then(j => setError(j));
     }, []);
+
+    useEffect(() => {
+        if (!error.status) return;
+
+        notification["error"]({
+            message: error.status,
+            description: error.message,
+        });
+    }, [error]);
 
     return (
         <>

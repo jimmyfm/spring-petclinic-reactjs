@@ -2,7 +2,7 @@ import { Button, Input, Table } from "antd";
 import Form from "antd/lib/form/Form";
 import FormItem from "antd/lib/form/FormItem";
 import React, { FC, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 export const Owner: FC<{}> = () => {
   const history = useHistory();
@@ -11,7 +11,7 @@ export const Owner: FC<{}> = () => {
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
-    history.push({ pathname: `/owner/${values.lastName}` });
+    history.push({ pathname: `/owner/search/${values.lastName}` });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -19,7 +19,7 @@ export const Owner: FC<{}> = () => {
   };
 
   useEffect(() => {
-    if (!lastName) return;
+    //if (!lastName) return;
 
     fetch(`/api/owner/list?lastName=${lastName}`)
       .then((r) => r.json())
@@ -55,37 +55,35 @@ export const Owner: FC<{}> = () => {
       </Button>
       lastname : {lastName}
       <Table
+        size="small"
+        rowKey="id"
         dataSource={owners}
         columns={[
           {
+            title: "Name",
+            render: (text: string, record: any) => (
+              <Link to={`/owner/${record.id}`}>
+                {record.firstName}, {record.lastName}
+              </Link>
+            ),
+          },
+          {
             title: "Address",
             dataIndex: "address",
-            key: "address",
           },
           {
-            title: "city",
+            title: "City",
             dataIndex: "city",
-            key: "city",
           },
           {
-            title: "firstName",
-            dataIndex: "firstName",
-            key: "firstName",
-          },
-          {
-            title: "lastName",
-            dataIndex: "lastName",
-            key: "lastName",
-          },
-          {
-            title: "telephone",
+            title: "Telephone",
             dataIndex: "telephone",
-            key: "telephone",
           },
           {
-            title: "pets",
-            dataIndex: "pets",
-            key: "pets",
+            title: "Pets",
+            render: (text: string, record: any) => (
+              <>{record.pets.map((r: any) => r.name).join(", ")}</>
+            ),
           },
         ]}
       ></Table>

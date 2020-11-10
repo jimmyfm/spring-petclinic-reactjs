@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { Breadcrumb, Button, Checkbox, Col, Input, Layout, Menu, Row, Table } from "antd";
-import {
-  MailOutlined,
-  AppstoreOutlined,
-  SettingOutlined,
-  CheckOutlined,
-  HomeOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import { HashRouter, Link, Switch, useLocation, Route, useHistory, useParams, Redirect } from "react-router-dom";
-import Form from "antd/lib/form/Form";
-import FormItem from "antd/lib/form/FormItem";
+import { Breadcrumb, Col, Layout, Menu, Row, Table } from "antd";
+import { HomeOutlined, SearchOutlined, } from "@ant-design/icons";
+import { Link, Switch, useLocation, Route, Redirect } from "react-router-dom";
 import { Owner } from "./routes/Owner";
 import { Error } from "./routes/Error";
+import { OwnerNew } from "./routes/OwnerNew";
 import { Home } from "./routes/Home";
+import { OwnerDetails } from "./routes/OwnerDetails";
 
 const { Header, Content, Footer } = Layout;
 
@@ -39,10 +32,10 @@ export function App() {
   return (<>
     <Layout>
       <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-        <div className="logo"><img src="spring-pivotal-logo.png" /></div>
+        <div className="logo"><img src="spring-pivotal-logo.png" alt="logo" /></div>
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['home']}>
-          <Menu.Item key="home" icon={<HomeOutlined />}><Link to="home">Home</Link></Menu.Item>
-          <Menu.Item key="owner" icon={<SearchOutlined />} ><Link to="/owner"> Find Owners</Link></Menu.Item>
+          <Menu.Item key="home" icon={<HomeOutlined />}><Link to="/home">Home</Link></Menu.Item>
+          <Menu.Item key="owner" icon={<SearchOutlined />} ><Link to="/owner/search"> Find Owners</Link></Menu.Item>
           <Menu.Item key="vet" title="asd" icon={<>👩‍⚕️</>}><Link to="/vet">Veterinarians</Link></Menu.Item>
           <Menu.Item key="error" danger icon={<>⚠</>}><Link to="/error">Error</Link></Menu.Item>
         </Menu>
@@ -55,10 +48,10 @@ export function App() {
         </Breadcrumb>
         <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
           <Switch>
-            <Route exact path="/home"><Home />            </Route>
-            <Route path="/owner/:lastName?">
-              <Owner />
-            </Route>
+            <Route exact path="/home"><Home /></Route>
+            <Route path="/owner/new"><OwnerNew /></Route>
+            <Route path="/owner/search/:lastName?"><Owner /></Route>
+            <Route path="/owner/:id"><OwnerDetails /></Route>
             <Route path="/vet">
               <Row>
                 <Col span={6} push={3}>
@@ -66,7 +59,7 @@ export function App() {
                 </Col>
               </Row>
             </Route>
-            <Route path="/error"> <Error />            </Route>
+            <Route path="/error"><Error /></Route>
             <Route><Redirect to={{ pathname: "/home" }} /></Route>
           </Switch>
         </div>

@@ -1,9 +1,9 @@
-import { Button, Input, Table } from "antd";
+import { Button, Input } from "antd";
 import Form from "antd/lib/form/Form";
 import FormItem from "antd/lib/form/FormItem";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 
-export const Owner: FC<{}> = () => {
+export const OwnerNew: FC<{}> = () => {
   const onFinish = (values: any) => {
     console.log("Success:", values);
     //        history.push({ pathname: `/owner/${values.lastName}` });
