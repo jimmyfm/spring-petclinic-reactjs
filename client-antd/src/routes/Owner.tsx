@@ -1,17 +1,16 @@
-import { Button, Input, Table } from "antd";
-import Form from "antd/lib/form/Form";
-import FormItem from "antd/lib/form/FormItem";
+import { Button, Form, Input, Table } from "antd";
 import React, { FC, useEffect, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 
 export const Owner: FC<{}> = () => {
   const history = useHistory();
   let { lastName } = useParams<{ lastName: string }>();
   const [owners, setOwners] = useState([]);
+  let queryString = useLocation().search;
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
-    history.push({ pathname: `/owner/search/${values.lastName}` });
+    history.push({ pathname: `/owner/search`, search: `?lastName=${values.lastName || ''}`, });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -19,12 +18,17 @@ export const Owner: FC<{}> = () => {
   };
 
   useEffect(() => {
-    //if (!lastName) return;
+    let query = new URLSearchParams(queryString);
 
-    fetch(`/api/owner/list?lastName=${lastName}`)
+    if (!new Map(query.entries()).has('lastName')) {
+      setOwners([]);
+      return;
+    }
+
+    fetch(`/api/owner/list?lastName=${query.get("lastName") || ''}`)
       .then((r) => r.json())
       .then((j) => setOwners(j));
-  }, [lastName]);
+  }, [queryString]);
 
   return (
     <>
@@ -36,24 +40,24 @@ export const Owner: FC<{}> = () => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
       >
-        <FormItem
+        <Form.Item
           label="lastName"
           name="lastName"
-          rules={[{ required: true, message: "Please input your username!" }]}
         >
           <Input />
-        </FormItem>
+        </Form.Item>
 
-        <FormItem wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
-        </FormItem>
+        </Form.Item>
       </Form>
       <Button onClick={() => history.push({ pathname: `/owner/new` })}>
         Add Owner
       </Button>
       lastname : {lastName}
+  
       <Table
         size="small"
         rowKey="id"
@@ -61,11 +65,7 @@ export const Owner: FC<{}> = () => {
         columns={[
           {
             title: "Name",
-            render: (text: string, record: any) => (
-              <Link to={`/owner/${record.id}`}>
-                {record.firstName}, {record.lastName}
-              </Link>
-            ),
+            render: (text: string, record: any) => <Link to={`/owner/${record.id}`}>{record.firstName}, {record.lastName}</Link>
           },
           {
             title: "Address",
@@ -81,9 +81,7 @@ export const Owner: FC<{}> = () => {
           },
           {
             title: "Pets",
-            render: (text: string, record: any) => (
-              <>{record.pets.map((r: any) => r.name).join(", ")}</>
-            ),
+            render: (text: string, r: any) => <>{r.pets.map((e: any) => e.name).join(", ")}</>
           },
         ]}
       ></Table>

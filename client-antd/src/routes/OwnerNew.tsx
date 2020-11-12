@@ -1,12 +1,15 @@
-import { Button, Input } from "antd";
-import Form from "antd/lib/form/Form";
-import FormItem from "antd/lib/form/FormItem";
+import { Button, Form, Input } from "antd";
 import React, { FC } from "react";
+import { useHistory } from "react-router-dom";
 
 export const OwnerNew: FC<{}> = () => {
+  const history = useHistory();
+
   const onFinish = (values: any) => {
     console.log("Success:", values);
-    //        history.push({ pathname: `/owner/${values.lastName}` });
+    fetch('/api/owner', { method: 'POST', body: JSON.stringify(values), headers: { "Content-Type": "application/json;charset=UTF-8" } })
+      .then((r) => r.json())
+      .then((j) => history.push({ pathname: `/owner/${j.id}` }));
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -23,51 +26,51 @@ export const OwnerNew: FC<{}> = () => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
       >
-        <FormItem
+        <Form.Item
           label="First Name"
           name="firstName"
           rules={[{ required: true, message: "may not be empty" }]}
         >
           <Input />
-        </FormItem>
+        </Form.Item>
 
-        <FormItem
+        <Form.Item
           label="Last Name"
           name="lastName"
           rules={[{ required: true, message: "may not be empty" }]}
         >
           <Input />
-        </FormItem>
+        </Form.Item>
 
-        <FormItem
+        <Form.Item
           label="Address"
           name="address"
           rules={[{ required: true, message: "may not be empty" }]}
         >
           <Input />
-        </FormItem>
+        </Form.Item>
 
-        <FormItem
+        <Form.Item
           label="City"
           name="city"
           rules={[{ required: true, message: "may not be empty" }]}
         >
           <Input />
-        </FormItem>
+        </Form.Item>
 
-        <FormItem
+        <Form.Item
           label="Telephone"
           name="telephone"
           rules={[{ required: true, message: "may not be empty" }]}
         >
           <Input />
-        </FormItem>
+        </Form.Item>
 
-        <FormItem wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
-        </FormItem>
+        </Form.Item>
       </Form>
     </>
   );

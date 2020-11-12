@@ -2,13 +2,11 @@
   "name": "client-antd",
   "version": "0.1.0",
   "private": true,
-  "port": 8081,
   "proxy": "http://localhost:8080",
   "homepage": ".",
   "dependencies": {
     "@ant-design/icons": "4.2.2",
-    "@types/react-router-dom": "^5.1.6",
-    "antd": "4.8.0",
+    "antd": "4.8.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-router-dom": "^5.2.0",
@@ -17,6 +15,7 @@
   "devDependencies": {
     "@types/react": "16.9.56",
     "@types/react-dom": "16.9.9",
+    "@types/react-router-dom": "^5.1.6",
     "react-scripts": "4.0.0",
     "typescript": "4.0.5"
   },

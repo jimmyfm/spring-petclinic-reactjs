@@ -1,6 +1,4 @@
-import { Button, Descriptions, Input, Table } from "antd";
-import Form from "antd/lib/form/Form";
-import FormItem from "antd/lib/form/FormItem";
+import { Button, Descriptions, Space, Table } from "antd";
 import React, { FC, useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 
@@ -15,13 +13,19 @@ export const OwnerDetails: FC<{}> = () => {
       .then((j) => setOwner(j));
   }, [id]);
 
+  const extras = <Space>
+    <Button type="primary" onClick={() => history.push({ pathname: `/owner/${owner.id}/pets/new` })}>Add Pet</Button>
+    <Button type="primary" onClick={() => history.push({ pathname: `/owner/${owner.id}/edit` })}>Edit</Button>
+  </Space>
+
+
   return (
     <>
       <Descriptions
         bordered
         title={`${owner.firstName}, ${owner.lastName}`}
         size="small"
-        extra={<Button type="primary">Edit</Button>}
+        extra={extras}
       >
         <Descriptions.Item label="Address">{owner.address}</Descriptions.Item>
         <Descriptions.Item label="City">{owner.city}</Descriptions.Item>
@@ -39,6 +43,14 @@ export const OwnerDetails: FC<{}> = () => {
             {
               title: "Type",
               render: (text: string, record: any) => <>{record.type.name}</>,
+            },
+            {
+              title: "",
+              render: (text: string, r: any) => <Link to={`/owners/${id}/pets/${r.id}/edit`}>Edit Pet</Link>,
+            },
+            {
+              title: "",
+              render: (text: string, r: any) => <Link to={`/owners/${id}/pets/${r.id}/visits/new`}>Add Visit</Link>,
             },
           ]} />
         </Descriptions.Item>
