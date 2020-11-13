@@ -46,11 +46,11 @@ export const OwnerDetails: FC<{}> = () => {
             },
             {
               title: "",
-              render: (text: string, r: any) => <Link to={`/owners/${id}/pets/${r.id}/edit`}>Edit Pet</Link>,
+              render: (text: string, r: any) => <Link to={`/owner/${id}/pets/${r.id}/edit`}>Edit Pet</Link>,
             },
             {
               title: "",
-              render: (text: string, r: any) => <Link to={`/owners/${id}/pets/${r.id}/visits/new`}>Add Visit</Link>,
+              render: (text: string, r: any) => <Link to={`/owner/${id}/pets/${r.id}/visits/new`}>Add Visit</Link>,
             },
           ]} />
         </Descriptions.Item>

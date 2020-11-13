@@ -1,8 +1,9 @@
-import { Button, DatePicker, Form, Input, Select } from "antd";
+import { Button, DatePicker, Form, Input, notification, Select } from "antd";
 import React, { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 export const OwnerPetsNew: FC<{}> = () => {
+  const history = useHistory();
   let { id } = useParams<{ id: string }>();
   const [petTypes, setPetTypes] = useState([]);
 
@@ -14,8 +15,19 @@ export const OwnerPetsNew: FC<{}> = () => {
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    values.birthDate = values.birthDate.format('YYYY/MM/DD');
     fetch(`/api/owners/${id}/pets`, { method: 'POST', body: JSON.stringify(values), headers: { "Content-Type": "application/json;charset=UTF-8" } })
-      .then((r) => console.info('POST add pet status', r.status, r.status === 204 ? 'sucess' : 'failure'));
+      .then((r) => {
+        console.info('POST add pet status', r.status, r.status === 204 ? 'sucess' : 'failure')
+        if (r.status === 204) {
+          history.push(`/owner/${id}`);
+        } else {
+          notification["error"]({
+            message: "Something went wrong",
+            description: "Terribly wrong",
+          });
+        }
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {

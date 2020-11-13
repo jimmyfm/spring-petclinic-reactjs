@@ -10,6 +10,8 @@ import { Home } from "./routes/Home";
 import { OwnerDetails } from "./routes/OwnerDetails";
 import { OwnerPetsNew } from "./routes/OwnerPetsNew";
 import { Vet } from "./routes/Vet";
+import { OwnerEdit } from "./routes/OwnerEdit";
+import { OwnerPetsEdit } from "./routes/OwnerPetsEdit";
 
 const { Header, Content, Footer } = Layout;
 
@@ -48,7 +50,8 @@ export function App() {
             <Route path="/owner/new" component={OwnerNew} />
             <Route path="/owner/search" component={Owner} />
             <Route path="/owner/:id/pets/new" component={OwnerPetsNew} />
-            <Route path="/owner/:id/edit">edit owner</Route>
+            <Route path="/owner/:ownerId/pets/:petId/edit" component={OwnerPetsEdit} />
+            <Route path="/owner/:id/edit" component={OwnerEdit} />
             <Route path="/owner/:id" component={OwnerDetails} />
             <Route path="/vet" component={Vet} />
             <Route path="/error" component={Error} />
