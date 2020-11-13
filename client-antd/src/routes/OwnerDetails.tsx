@@ -1,4 +1,4 @@
-import { Button, Descriptions, Space, Table } from "antd";
+import { Button, Descriptions, List, Space, Table } from "antd";
 import React, { FC, useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 
@@ -43,6 +43,10 @@ export const OwnerDetails: FC<{}> = () => {
             {
               title: "Type",
               render: (text: string, record: any) => <>{record.type.name}</>,
+            },
+            {
+              title: "Visits",
+              render: (text: string, r: any) => <List size="small" dataSource={r.visits} renderItem={(item: any) => <List.Item><em>{item.date}</em> - {item.description}</List.Item>} />
             },
             {
               title: "",

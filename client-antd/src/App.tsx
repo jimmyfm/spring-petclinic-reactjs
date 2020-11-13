@@ -12,6 +12,7 @@ import { OwnerPetsNew } from "./routes/OwnerPetsNew";
 import { Vet } from "./routes/Vet";
 import { OwnerEdit } from "./routes/OwnerEdit";
 import { OwnerPetsEdit } from "./routes/OwnerPetsEdit";
+import { OwnerPetsVistNew } from "./routes/OwnerPetsVisitNew";
 
 const { Header, Content, Footer } = Layout;
 
@@ -51,6 +52,7 @@ export function App() {
             <Route path="/owner/search" component={Owner} />
             <Route path="/owner/:id/pets/new" component={OwnerPetsNew} />
             <Route path="/owner/:ownerId/pets/:petId/edit" component={OwnerPetsEdit} />
+            <Route path="/owner/:ownerId/pets/:petId/visits/new" component={OwnerPetsVistNew} />
             <Route path="/owner/:id/edit" component={OwnerEdit} />
             <Route path="/owner/:id" component={OwnerDetails} />
             <Route path="/vet" component={Vet} />
